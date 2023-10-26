@@ -65,9 +65,9 @@ def is_net_ok() -> bool:
 
 
 if __name__ == "__main__":
-    if is_net_ok():
+    if is_net_ok():# 有网 获取ip和macid
         data_r = get_inf()
-    else:
+    else:# 没网 执行登录请求
         login()
 
     # session = requests.Session()
