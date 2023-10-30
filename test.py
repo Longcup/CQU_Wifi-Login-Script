@@ -39,15 +39,22 @@ def get_inf() :
 
 
 def login():
-    with open("request_info.txt", "r") as f:
-        data_r = json.loads(f.read())
-    print(data_r)
+    with open('request_info.txt', 'r+') as f:
+        data_r = json.loads(f.readlines()[0])
+        print(data_r)
 
     data_s["wlan_user_ip"] = data_r["list"][0]["online_ip"]
     data_s["wlan_user_mac"] = data_r["list"][0]["online_mac"]
-
-    data_s["user_account"] = input("输入账号:")
-    data_s["user_password"] = input("输入密码:")
+    with open('request_info.txt', 'r+') as f:
+        content = f.readlines()
+    if len(content) == 1:
+        data_s["user_account"] = input("输入账号:")
+        data_s["user_password"] = input("输入密码:")
+        f.readline()
+        f.write("\n" + str(data_s["user_account"]) + "\n" + str(data_s["user_password"]))
+    else:
+        data_s["user_account"] = content[1][:-1]
+        data_s["user_password"] = content[2]
     response = requests.get("http://login.cqu.edu.cn:801/eportal/portal/", params=data_s)
     print(response.text)
 
